@@ -28,10 +28,27 @@ void display_PPM(const json& config) {
     if (!isSuccess) throw std::runtime_error("Oops");
 }
 
+std::ofstream open_file(const std::string& fileName) {
+    std::ofstream file(fileName);
+    if (!file.is_open()) {
+        throw std::runtime_error("Can't open output file!");
+    }
+    return file;
+}
+
 int main() {
-    const json config = loadConfig();
-    displayPPM(config);
     const json config = load_config();
+    const std::string file_name = config["paths"]["outputImage"];
+
+    try {
+        std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
+        render(ImageDimensions{256,256}, output_file);
+    }
+    catch (const std::exception& e) {
+        std::cerr << std::format("Error: {}\n", e.what());
+        return EXIT_FAILURE;
+    }
+
     display_PPM(config);
     return 0;
 }
