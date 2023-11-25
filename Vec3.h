@@ -31,4 +31,4 @@ Vec3 operator/(Vec3 v, double t);
 double dot(const Vec3 &u, const Vec3 &v);
 Vec3 cross(const Vec3 &u, const Vec3 &v);
 
-Vec3 unitVector(Vec3 v);
+Vec3 unit_vector(Vec3 v);

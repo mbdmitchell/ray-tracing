@@ -87,6 +87,6 @@ Vec3 cross(const Vec3 &u, const Vec3 &v) {
             u.x * v.y - u.y * v.x};
 }
 
-Vec3 unitVector(Vec3 v) {
+Vec3 unit_vector(Vec3 v) {
     return v / v.length();
 }

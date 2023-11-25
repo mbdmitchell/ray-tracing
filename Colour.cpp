@@ -1,19 +1,20 @@
 #include "Colour.h"
 
-int scaleTo255(double normalizedValue) {
-    const double scalingFactor = 255.999;
-    return static_cast<int>(scalingFactor * normalizedValue);
+int scale_to_255(double normalizedValue) {
+    /// interval [0,1] -> [0,255]
+    const double scaling_factor = 255.999;
+    return static_cast<int>(scaling_factor * normalizedValue);
 }
 
-void writeColor(std::ostream &out, Colour pixelColour) {
+void write_color(std::ostream &out, Colour pixelColour) {
 
-    const double normalizedRed = pixelColour.x;
-    const double normalizedBlue = pixelColour.y;
-    const double normalizedGreen = pixelColour.z;
+    const double normalized_red = pixelColour.x;
+    const double normalized_blue = pixelColour.y;
+    const double normalized_green = pixelColour.z;
 
-    const int r = static_cast<int>(scaleTo255(normalizedRed));
-    const int g = static_cast<int>(scaleTo255(normalizedBlue));
-    const int b = static_cast<int>(scaleTo255(normalizedGreen));
+    const int r = static_cast<int>(scale_to_255(normalized_red));
+    const int g = static_cast<int>(scale_to_255(normalized_blue));
+    const int b = static_cast<int>(scale_to_255(normalized_green));
 
     out << std::format("{} {} {}\n", r, g, b);
 }

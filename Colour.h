@@ -6,5 +6,5 @@
 
 using Colour = Vec3;
 
-int scaleTo255(double normalizedValue);
-void writeColor(std::ostream &out, Colour pixelColour);
+int scale_to_255(double normalizedValue);
+void write_color(std::ostream &out, Colour pixelColour);
