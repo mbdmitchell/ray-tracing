@@ -3,6 +3,7 @@
 #include <fstream>
 #include "format"
 #include "json.hpp"
+#include "Render.h"
 
 using json = nlohmann::json;
 
@@ -17,7 +18,7 @@ json load_config() {
 }
 
 void display_PPM(const json& config) {
-
+    /// Precondition - outputImage file is closed / nothing in the buffer still needing to be written to the file
     const std::string python_PPM_script_path = config["paths"]["printPPM"];
     const std::string output_image_path = config["paths"]["outputImage"];
 
