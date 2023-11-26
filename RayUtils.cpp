@@ -1,7 +1,6 @@
 #include "RayUtils.h"
-#include "Sphere.h"
 
-bool is_sphere_hit(const Sphere& sphere, const Ray& ray) {
+std::optional<double> smallest_t_that_hits(const Sphere& sphere, const Ray& ray) {
     /// for ray P(t), ray hits sphere when t = (-b ± sqrt(b^2 - 4ac)) / 2a  (*)
 
     const Vec3 center_to_origin = ray.origin - sphere.center();
@@ -9,7 +8,13 @@ bool is_sphere_hit(const Sphere& sphere, const Ray& ray) {
     const double b = 2.0 * dot(center_to_origin, ray.direction);
     const double c = dot(center_to_origin, center_to_origin) - sphere.radius()*sphere.radius();
     const double discriminant = b*b - 4*a*c;
-    return discriminant >= 0;
+
+    if (discriminant < 0) {
+        return std::nullopt;
+    }
+    else {
+        return (-b - sqrt(discriminant)) / (2.0 * a);
+    }
 
     // (*) DERIVATION
     // (P-C) • (P-C) = r^2, where c is sphere centre and p is some point
