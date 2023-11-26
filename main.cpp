@@ -1,10 +1,13 @@
-#include <iostream>
-#include "gsl/gsl"
-#include <fstream>
 #include "format"
+#include "gsl/gsl"
 #include "json.hpp"
+
 #include "Render.h"
 #include "ImageDimensions.h"
+
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 
 using json = nlohmann::json;
 
