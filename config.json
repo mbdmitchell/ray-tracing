@@ -2,6 +2,6 @@
   "paths": {
     "venv": "/Users/maxmitchell/Documents/CS/Code/ray-tracing-new/venv",
     "printPPM": "/Users/maxmitchell/Documents/CS/Code/ray-tracing-new/printPPM.py",
-    "outputImage": "/Users/maxmitchell/Documents/CS/Code/ray-tracing-new/test.ppm"
+    "outputImage": "/Users/maxmitchell/Documents/CS/Code/ray-tracing-new/output.ppm"
   }
 }

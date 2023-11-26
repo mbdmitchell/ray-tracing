@@ -4,8 +4,29 @@
 #include "format"
 #include "json.hpp"
 #include "Render.h"
+#include "ImageDimensions.h"
 
 using json = nlohmann::json;
+
+template <int A, int B>
+struct AspectRatio {
+    static constexpr int num = A;
+    static constexpr int den = B;
+};
+
+template <typename Ratio>
+constexpr std::pair<size_t, size_t> calculate_dimensions(int width, Ratio) {
+    constexpr double aspectRatio = static_cast<double>(Ratio::num) / Ratio::den;
+    int height = static_cast<int>(width / aspectRatio);
+    height = (height < 1) ? 1 : height;
+    return {height, width};
+}
+
+template <typename Ratio>
+ImageDimensions calculate_image_dimensions(int width) {
+    auto [imageHeight, imageWidth] = calculate_dimensions(width, Ratio{});
+    return {imageHeight, imageWidth};
+}
 
 json load_config() {
     json c;
@@ -41,9 +62,20 @@ int main() {
     const json config = load_config();
     const std::string file_name = config["paths"]["outputImage"];
 
+    constexpr int width = 400;
+    using Ratio = AspectRatio<16,9>;
+    const ImageDimensions image_dimensions = calculate_image_dimensions<AspectRatio<16,9>>(width);
+
+    const Camera camera {
+            .center = {0,0,0},
+            .focal_length = 1.0
+    };
+
+    const Viewport viewport = Viewport(image_dimensions, camera);
+
     try {
         std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
-        render(ImageDimensions{256,256}, output_file);
+        render(output_file, image_dimensions, viewport, camera);
     }
     catch (const std::exception& e) {
         std::cerr << std::format("Error: {}\n", e.what());
