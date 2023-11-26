@@ -19,7 +19,7 @@ bool is_sphere_hit(const Sphere& sphere, const Ray& ray) {
 
 Colour ray_colour(const Ray &ray) {
 
-    const Sphere sphere = {0.5, Point3(0, 0, 1)}; // test sphere
+    const Sphere sphere = {0.5, Point3(0, 0, -1)}; // test sphere
 
     if (is_sphere_hit(sphere, ray)) {
         return {0,0,0}; // black

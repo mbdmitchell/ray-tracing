@@ -17,8 +17,8 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
             const Point3 pixel_center = viewport.pixel00()
                     + (gsl::narrow_cast<double>(i) * viewport.horizontal_pixel_delta())
                     + (gsl::narrow_cast<double>(j) * viewport.vertical_pixel_delta());
-            const Ray r = {.origin = camera.center
-                           ,.direction = pixel_center - camera.center};
+            const Ray r = {.origin = camera.center,
+                           .direction = pixel_center - camera.center};
             const Colour pixel_colour = ray_colour(r);
 
             write_color(os, pixel_colour);
