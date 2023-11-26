@@ -25,9 +25,11 @@ std::optional<double> smallest_t_that_hits(const Sphere& sphere, const Ray& ray)
 Colour ray_colour(const Ray &ray) {
 
     const Sphere sphere = {0.5, Point3(0, 0, -1)}; // test sphere
+    std::optional<double> t = smallest_t_that_hits(sphere, ray);
 
-    if (is_sphere_hit(sphere, ray)) {
-        return {0,0,0}; // black
+    if (t.has_value()) {
+        Vec3 normal = unit_vector(ray.at(t.value()) - Vec3{0, 0, -1});
+        return 0.5 * Colour{normal.x + 1, normal.y + 1, normal.z + 1};
     }
 
     const Vec3 unit_direction = unit_vector(ray.direction);
