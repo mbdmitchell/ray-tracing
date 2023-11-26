@@ -18,17 +18,15 @@ struct AspectRatio {
 };
 
 template <typename Ratio>
-constexpr std::pair<size_t, size_t> calculate_dimensions(int width, Ratio) {
-    constexpr double aspectRatio = static_cast<double>(Ratio::num) / Ratio::den;
-    int height = static_cast<int>(width / aspectRatio);
-    height = (height < 1) ? 1 : height;
-    return {height, width};
-}
+constexpr ImageDimensions calculate_dimensions(size_t width) {
+    constexpr double aspectRatio = gsl::narrow_cast<double>(Ratio::num) / Ratio::den;
 
-template <typename Ratio>
-ImageDimensions calculate_image_dimensions(int width) {
-    auto [imageHeight, imageWidth] = calculate_dimensions(width, Ratio{});
-    return {imageHeight, imageWidth};
+    const size_t height = std::invoke([&](){
+        size_t h = gsl::narrow_cast<double>(width) / aspectRatio;
+        return std::max(h, size_t(1));
+    });
+
+    return {height, width};
 }
 
 json load_config() {
@@ -66,8 +64,7 @@ int main() {
     const std::string file_name = config["paths"]["outputImage"];
 
     constexpr int width = 400;
-    using Ratio = AspectRatio<16,9>;
-    const ImageDimensions image_dimensions = calculate_image_dimensions<AspectRatio<16,9>>(width);
+    const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
 
     const Camera camera {
             .center = {0,0,0},
@@ -86,5 +83,6 @@ int main() {
     }
 
     display_PPM(config);
+
     return 0;
 }
