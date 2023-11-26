@@ -2,18 +2,19 @@
 
 std::optional<double> smallest_t_that_hits(const Sphere& sphere, const Ray& ray) {
     /// for ray P(t), ray hits sphere when t = (-b ± sqrt(b^2 - 4ac)) / 2a  (*)
+    // Sub b = 2h and -> (-h ± sqrt(h^2 - 4ac)) / a
 
     const Vec3 center_to_origin = ray.origin - sphere.center();
-    const double a = dot(ray.direction, ray.direction);
-    const double b = 2.0 * dot(center_to_origin, ray.direction);
-    const double c = dot(center_to_origin, center_to_origin) - sphere.radius()*sphere.radius();
-    const double discriminant = b*b - 4*a*c;
+    const double a = ray.direction.length_squared(); // vector dotted with itself is equal to the squared length of that vector
+    const double half_b = dot(center_to_origin, ray.direction);
+    const double c = center_to_origin.length_squared() - sphere.radius()*sphere.radius();
+    const double discriminant = half_b*half_b - a*c;
 
     if (discriminant < 0) {
         return std::nullopt;
     }
     else {
-        return (-b - sqrt(discriminant)) / (2.0 * a);
+        return (-half_b - sqrt(discriminant)) / a;
     }
 
     // (*) DERIVATION
