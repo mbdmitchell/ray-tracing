@@ -8,6 +8,15 @@ This repository documents my ongoing study of ray tracing principles, drawing kn
 ## Stages
 (In reverse-chronological order)
 
+### 3. Add Sphere to the Scene
+
+![Output Image from this stage](./assets/stage_3.png)
+
+#### Changes
+
+- Create Sphere class
+- Detect if ray hits sphere. If so, `ray_colour()` returns black
+
 ### 2. Flesh out initial Code
 
 ![Output Image from this stage](./assets/stage_2.png)
