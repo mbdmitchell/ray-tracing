@@ -1,8 +1,9 @@
 # Ray Tracing
 
-This repository comprises my ongoing ray tracing project. To understand the theory, I have been learning from `raytracing.github.io`. Although note that, due to dissatisfaction with the quality of the author's code examples, my code very rarely follows their code.
+This repository documents my ongoing study of ray tracing principles, drawing knowledge from `raytracing.github.io`. Although the site provides code examples, I've opted to heavily refactor and customize my implementations for learning purposes. Notable changes include:
 
-I will update the README as I go, showing the different stages.
+- More consistent organising of code into classes
+- Utilising modern C++ (C++14 and up)
 
 ## Stages
 (In reverse-chronological order)
