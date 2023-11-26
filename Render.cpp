@@ -1,6 +1,6 @@
 #include "Render.h"
 
-void render(const ImageDimensions &dim, std::ostream &os) {
+void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewport, const Camera& camera) {
     /// Write PPM image file to ostream
 
     // Render header
@@ -14,10 +14,12 @@ void render(const ImageDimensions &dim, std::ostream &os) {
 
         for (gsl::index i = 0; i < dim.width; ++i) {
 
-            // test values
-            const Colour pixel_colour = {  gsl::narrow_cast<double>(i) / gsl::narrow_cast<double>(dim.width - 1)  // R
-                    , gsl::narrow_cast<double>(j) / gsl::narrow_cast<double>(dim.height - 1) // G
-                    , 0};                                                                    // B
+            const Point3 pixel_center = viewport.pixel00()
+                    + (gsl::narrow_cast<double>(i) * viewport.horizontal_pixel_delta())
+                    + (gsl::narrow_cast<double>(j) * viewport.vertical_pixel_delta());
+            const Ray r = {.origin = camera.center
+                           ,.direction = pixel_center - camera.center};
+            const Colour pixel_colour = ray_colour(r);
 
             write_color(os, pixel_colour);
         }

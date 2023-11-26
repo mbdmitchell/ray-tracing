@@ -5,11 +5,8 @@
 #include "Colour.h"
 #include "Vec3.h"
 #include "Ray.h"
+#include "Viewport.h"
+#include "RayUtils.h"
+#include "ImageDimensions.h"
 
-struct ImageDimensions {
-    size_t height;
-    size_t width;
-};
-
-
-void render(const ImageDimensions& dim, std::ostream& os);
+void render(std::ostream& os, const ImageDimensions& dim, const Viewport& viewport, const Camera& camera);
