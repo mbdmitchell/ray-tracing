@@ -1,6 +1,6 @@
 #include "Render.h"
 
-void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewport, const Camera& camera) {
+void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewport, const Camera& camera, const ListOfHittables& world) {
     /// Write PPM image file to ostream
 
     // Render header
@@ -19,7 +19,7 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
                     + (gsl::narrow_cast<double>(j) * viewport.vertical_pixel_delta());
             const Ray r = {.origin = camera.center,
                            .direction = pixel_center - camera.center};
-            const Colour pixel_colour = ray_colour(r);
+            const Colour pixel_colour = ray_colour(r, world);
 
             write_color(os, pixel_colour);
         }
