@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <array>
 #include <fstream>
 
 struct Vec3 { // just POD type
