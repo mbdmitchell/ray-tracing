@@ -4,6 +4,7 @@
 
 #include "Render.h"
 #include "ImageDimensions.h"
+#include "HittableEntities/Sphere.h"
 
 #include <algorithm>
 #include <fstream>
@@ -66,16 +67,14 @@ int main() {
     constexpr int width = 400;
     const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
 
-    const Camera camera {
-            .center = {0,0,0},
-            .focal_length = 1.0
-    };
+    const Camera camera {{0,0,0}, 1.0 };
 
     const Viewport viewport = Viewport(image_dimensions, camera);
+    const ListOfHittables world = {Sphere{0.5, {0,0,-1}}, Sphere{100, {0,-100.5,1}}};
 
     try {
         std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
-        render(output_file, image_dimensions, viewport, camera);
+        render(output_file, image_dimensions, viewport, camera, world);
     }
     catch (const std::exception& e) {
         std::cerr << std::format("Error: {}\n", e.what());
