@@ -8,6 +8,17 @@ This repository documents my ongoing study of ray tracing principles, drawing kn
 ## Stages
 (In reverse-chronological order)
 
+### 4. Add Antialiasing
+
+![Output Image from this stage](./assets/stage_4.png)
+
+#### Changes
+
+- Colour sphere according to its normal vectors
+- Create abstract class `HittableEntity` and class `ListOfHittables`
+- Add `Interval` class and some misc. utility functions
+- Add antialiasing
+
 ### 3. Add Sphere to the Scene
 
 ![Output Image from this stage](./assets/stage_3.png)
