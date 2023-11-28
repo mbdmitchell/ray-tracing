@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Colour.h"
-#include "Sphere.h"
+#include "HittableEntities/ListOfHittables.h"
 #include "Ray.h"
 
-Colour ray_colour(const Ray& ray);
+Colour ray_colour(const Ray& ray, const ListOfHittables& world);
