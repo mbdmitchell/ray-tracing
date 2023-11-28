@@ -11,7 +11,7 @@ Colour ray_colour(const Ray &ray, const ListOfHittables& world, int depth) {
     HitRecord record{};
 
     if (world.is_hit_and_update_hit_record(ray, {0.001, std::numeric_limits<double>::infinity()}, record)) {
-        const Vec3 direction = Vec3::random_on_hemisphere(record.surface_normal);
+        const Vec3 direction = record.surface_normal + Vec3::random_unit_vector(); // Randomly generating a vector according to Lambertian distribution
         return 0.5 * ray_colour(Ray{record.point, direction}, world, depth - 1);
     }
 
