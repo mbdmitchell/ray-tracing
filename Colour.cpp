@@ -9,12 +9,12 @@ int scale_to_255(double normalizedValue) {
 void write_color(std::ostream &out, Colour pixelColour) {
 
     const double normalized_red = pixelColour.x;
-    const double normalized_blue = pixelColour.y;
-    const double normalized_green = pixelColour.z;
+    const double normalized_green = pixelColour.y;
+    const double normalized_blue = pixelColour.z;
 
     const int r = static_cast<int>(scale_to_255(normalized_red));
-    const int g = static_cast<int>(scale_to_255(normalized_blue));
-    const int b = static_cast<int>(scale_to_255(normalized_green));
+    const int g = static_cast<int>(scale_to_255(normalized_green));
+    const int b = static_cast<int>(scale_to_255(normalized_blue));
 
     out << std::format("{} {} {}\n", r, g, b);
 }
