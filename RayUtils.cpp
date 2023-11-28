@@ -1,11 +1,17 @@
 #include "RayUtils.h"
 
-Colour ray_colour(const Ray &ray, const ListOfHittables& world) {
+
+Colour ray_colour(const Ray &ray, const ListOfHittables& world, int depth) {
+
+    if (depth <= 0) {
+        return {0,0,0};
+    }
 
     HitRecord record{};
 
     if (world.is_hit_and_update_hit_record(ray, {0,std::numeric_limits<double>::infinity()}, record)) {
-        return 0.5 * (record.surface_normal + Colour{1,1,1});
+        const Vec3 direction = Vec3::random_on_hemisphere(record.surface_normal);
+        return 0.5 * ray_colour(Ray{record.point, direction}, world, depth - 1);
     }
 
     const Vec3 unit_direction = unit_vector(ray.direction);

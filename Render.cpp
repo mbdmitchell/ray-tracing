@@ -23,7 +23,7 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
 
                 for (gsl::index s = 0; s < samples_per_pixel; ++s) {
                     Ray ray = generate_random_ray_from_position(i,j, viewport, camera);
-                    col += ray_colour(ray, world) * weight;
+                    col += ray_colour(ray, world, 10) * weight;
                 }
                 return col;
             });
