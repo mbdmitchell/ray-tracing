@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Vec3.h"
+#include "Ray.h"
+#include "Viewport.h"
 
 class Camera {
     Point3 m_center;
