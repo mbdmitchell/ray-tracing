@@ -13,16 +13,7 @@ public:
 
     template<typename... Args>
     ListOfHittables(Args&&... args) {
-        add(std::forward<Args>(args)...);
-    }
-
-    template<typename T, typename... Args>
-    void add(T&& entity, Args&&... args) {
-        static_assert(std::is_base_of<HittableEntity, T>::value, "T must be derived from HittableEntity");
-        entities.push_back(std::make_shared<T>(std::forward<T>(entity)));
-        if constexpr (sizeof...(Args) > 0) {
-            add(std::forward<Args>(args)...);
-        }
+        (add(std::forward<Args>(args)), ...);
     }
 
     template<typename T>
