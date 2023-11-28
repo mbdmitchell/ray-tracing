@@ -1,24 +1,26 @@
 #include "Render.h"
 
-void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewport, const Camera& camera, const ListOfHittables& world, int samples_per_pixel = 1) {
+void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewport, const Camera& camera, const ListOfHittables& world, int samples_per_pixel = 100) {
     /// Write PPM image file to ostream
 
     assert(samples_per_pixel > 0);
 
+    Countdown scanLinesRemaining {dim.height};
+
     // Render header
     os << std::format("P3\n{} {}\n255\n", dim.width, dim.height);
 
-    // TODO: Logger scanLinesRemaining = dim.height;
+    const double weight = 1.0 / samples_per_pixel;
 
     for (gsl::index j = 0; j < dim.height; ++j) {
 
-        // scanLinesRemaining.print();
+        scanLinesRemaining.log();
 
         for (gsl::index i = 0; i < dim.width; ++i) {
 
             const Colour pixel_colour = std::invoke([&](){
                 Colour col {0,0,0};
-                const double weight = 1.0/samples_per_pixel;
+
                 for (gsl::index s = 0; s < samples_per_pixel; ++s) {
                     Ray ray = generate_random_ray_from_position(i,j, viewport, camera);
                     col += ray_colour(ray, world) * weight;
@@ -29,7 +31,7 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
             write_color(os, pixel_colour);
         }
 
-        // --scanLinesRemaining;
+        --scanLinesRemaining;
     }
 }
 

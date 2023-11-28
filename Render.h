@@ -5,6 +5,7 @@
 #include "Viewport.h"
 #include "RayUtils.h"
 #include "Utils.h"
+#include "Countdown.h"
 
 void render(std::ostream& os, const ImageDimensions& dim, const Viewport& viewport, const Camera& camera, const ListOfHittables& world, int samples_per_pixel);
 
