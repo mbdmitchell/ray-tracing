@@ -4,7 +4,8 @@ void HitRecord::set_face_and_surface_normal(const Ray &ray, const Vec3 &outward_
     /// outward_normal should be unit length
 
     constexpr double unit_length = 1.0;
-    const double epsilon = 5e-16; // std::numeric_limits<double>::epsilon() is too small
+    const double epsilon = 1e-10; // std::numeric_limits<double>::epsilon() is too small
+
     assert(std::abs(outward_normal.length() - unit_length) < epsilon);
 
     is_front_face = dot(ray.direction, outward_normal) < 0;

@@ -1,12 +1,21 @@
 # Ray Tracing
 
-This repository documents my ongoing study of ray tracing principles, drawing knowledge from `raytracing.github.io`. Although the site provides code examples, I've opted to heavily refactor and customize my implementations for learning purposes. Notable changes include:
+This repository documents my ongoing study of ray tracing principles, drawing knowledge from `raytracing.github.io`. Although the site provides code examples, I've opted to heavily refactor and customize my implementations for learning purposes and to improve on the code's quality. Notable changes include:
 
 - More consistent organising of code into classes
 - Utilising modern C++ (C++14 and up)
 
 ## Stages
 (In reverse-chronological order)
+
+### 5. Add A Simple Diffuse Material
+
+![Output Image from this stage](./assets/stage_5.png)
+
+#### Changes
+
+- Add `Countdown` to track progress of `render()`
+- Implement a simple diffuse material
 
 ### 4. Add Antialiasing
 
