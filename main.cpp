@@ -65,29 +65,56 @@ int main() {
 
     // materials
 
-    const Lambertian ground {Colour{0.8, 0.8, 0.0}};
-    const Lambertian center {Colour{0.1, 0.2, 0.5}};
-    const Dielectric left   {1.5};
-    const Metal      right  {Colour{0.8, 0.6, 0.2}, 0.0};
+    const Lambertian ground {Colour{0.5, 0.5, 0.5}};
+    const Dielectric mat1 {1.5};
+    const Lambertian mat2 {Colour{0.4, 0.2, 0.1}};
+    const Metal      mat3 {Colour{0.7, 0.6, 0.5}, 0.0};
 
     // setup
 
     const json config = load_config();
     const std::string file_name = config["paths"]["outputImage"];
 
-    const ListOfHittables world = {
-              Sphere {100.0, { 0.0, -100.5, -1.0}, ground}
-              , Sphere{ 0.5, { 0.0,    0.0, -1.0}, center}
-              , Sphere{+0.5, {-1.0,    0.0, -1.0}, left}
-              , Sphere{-0.4, {-1.0,    0.0, -1.0}, left}
-              , Sphere{ 0.5, { 1.0,    0.0, -1.0}, right}
-    };
+    const ListOfHittables world = [&](){
+
+        ListOfHittables w;
+        w.add(Sphere{1000, Point3{0, -1000, 0}, ground});
+        w.add(Sphere{1.0, Point3{0, 1, 0}, mat1});
+        w.add(Sphere{1.0, Point3{-4, 1, 0}, mat2});
+        w.add(Sphere{1.0, Point3{4, 1, 0}, mat3});
+
+        for (gsl::index a = -11; a < 11; ++a) {
+            for (gsl::index b = -11; b < 11; ++b) {
+                const double choose_mat = utils::random_double();
+
+                Point3 center{a + 0.9 * utils::random_double(), 0.2, b + 0.9 * utils::random_double()};
+
+                if ((center - Point3{4, 0.2, 0}).length() > 0.9) {
+                    if (choose_mat < 0.8) {
+                        // diffuse
+                        const Colour albedo = Colour::random() * Colour::random();
+                        w.add(Sphere{0.2, center, Lambertian{albedo}});
+                    } else if (choose_mat < 0.95) {
+                        // metal
+                        const Colour albedo = Colour::random({0.5, 1});
+                        const double fuzz_factor = utils::random_double({0, 0.5});
+                        w.add(Sphere{0.2, center, Metal{albedo, fuzz_factor}});
+                    } else {
+                        // glass
+                        w.add(Sphere{0.2, center, Dielectric{1.5}});
+                    }
+                }
+            }
+        }
+
+        return w;
+    }();
 
     const int width = 720;
     const int samples_per_pixel = 100;
 
     const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
-    const Camera camera {{-2,2,1}, {0,0,-1}, {0,1,0}};
+    const Camera camera {Point3{13, 2, 3}, Point3{0, 0, 0}, Point3{0, 1, 0}};
     const Viewport viewport {image_dimensions, camera};
 
     // render
