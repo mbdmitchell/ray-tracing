@@ -70,7 +70,7 @@ int main() {
 
     const Lambertian ground {Colour{0.8, 0.8, 0.0}};
     const Lambertian center {Colour{0.7, 0.3, 0.3}};
-    const Metal      left   {Colour{0.8, 0.8, 0.8}, 0.3};
+    const Dielectric left   {1.5};
     const Metal      right  {Colour{0.8, 0.6, 0.2}, 1.0};
 
     // setup

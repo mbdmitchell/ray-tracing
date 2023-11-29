@@ -33,7 +33,7 @@ bool Lambertian::scatter(const Ray &ray_in, const HitRecord &record, Colour &att
 Lambertian::Lambertian(const Colour &albedo) : albedo{albedo} {}
 
 bool Metal::scatter(const Ray &ray_in, const HitRecord &record, Colour &attenuation, Ray &scattered) const {
-    const Vec3 reflected = reflect(unit_vector(ray_in.direction), record.surface_normal);
+    const Vec3 reflected = reflection_ray(unit_vector(ray_in.direction), record.surface_normal);
     scattered = Ray{record.point, reflected + fuzz_factor * Vec3::random_unit_vector()};
     attenuation = albedo;
 
@@ -43,3 +43,27 @@ bool Metal::scatter(const Ray &ray_in, const HitRecord &record, Colour &attenuat
 
 Metal::Metal(const Colour &albedo, double fuzz)
     : albedo{albedo}, fuzz_factor{std::clamp(fuzz, 0.0, 1.0)} {}
+
+bool Dielectric::scatter(const Ray &ray_in, const HitRecord &record, Colour &attenuation, Ray &scattered) const {
+
+    const Vec3 unit_direction = unit_vector(ray_in.direction);
+    const double cos_theta = std::min(dot(-unit_direction, record.surface_normal), 1.0);
+    const double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+
+    const double refraction_ratio = record.is_front_face ? (1.0/refraction_index) : refraction_index;
+    const bool can_refract = refraction_ratio * sin_theta <= 1.0;
+
+    const Vec3 direction = [&](){
+        if (!can_refract) {
+            return reflection_ray(unit_direction, record.surface_normal);
+        }
+        else {
+            return refraction_ray(unit_direction, record.surface_normal, refraction_ratio);
+        }
+    }();
+
+    attenuation = {1,1,1}; // Attenuation is always 1 — the surface absorbs nothing
+    scattered = Ray{record.point, direction};
+
+    return true;
+}

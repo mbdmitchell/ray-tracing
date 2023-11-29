@@ -76,4 +76,5 @@ Vec3 operator/(Vec3 v, double t);
 //double dot(const Vec3 &u, const Vec3 &v);
 Vec3 cross(const Vec3 &u, const Vec3 &v);
 
-Vec3 reflect(const Vec3& v, const Vec3& normal_as_unit_vector);
+Vec3 reflection_ray(const Vec3& v, const Vec3& normal_as_unit_vector);
+Vec3 refraction_ray(const Vec3& incident_ray_direction, const Vec3& surface_normal, double etai_over_etat);

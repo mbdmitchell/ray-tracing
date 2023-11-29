@@ -97,6 +97,17 @@ Vec3 unit_vector(Vec3 v) {
     return v / v.length();
 }
 
-Vec3 reflect(const Vec3 &v, const Vec3 &normal_as_unit_vector) {
+Vec3 reflection_ray(const Vec3 &v, const Vec3 &normal_as_unit_vector) {
     return v - 2 * dot(v,normal_as_unit_vector) * normal_as_unit_vector;
+}
+
+Vec3 refraction_ray(const Vec3 &incident_ray_direction, const Vec3 &surface_normal, double etai_over_etat) {
+    /// etai - refractive index of the medium where the incident ray is coming from
+    /// etat - refractive index of the medium where the ray is entering
+
+    const double cos_theta = std::min(dot(-incident_ray_direction, surface_normal), 1.0);
+    const Vec3 ray_out_perpendicular = etai_over_etat * (incident_ray_direction + cos_theta * surface_normal);
+    const Vec3 ray_out_parallel = -sqrt(abs(1.0 - ray_out_perpendicular.length_squared())) * surface_normal;
+
+    return ray_out_perpendicular + ray_out_parallel;
 }

@@ -34,3 +34,11 @@ public:
     Metal(const Colour& albedo, double fuzz_factor);
     [[nodiscard]] bool scatter(const Ray& ray_in, const HitRecord& record, Colour& attenuation, Ray& scattered) const override;
 };
+
+class Dielectric : public Material {
+    /// Material always refracts
+    double refraction_index;
+public:
+    Dielectric(double refraction_index) : refraction_index{refraction_index} { }
+    [[nodiscard]] bool scatter(const Ray& ray_in, const HitRecord& record, Colour& attenuation, Ray& scattered) const override;
+};
