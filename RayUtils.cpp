@@ -3,16 +3,20 @@
 
 Colour ray_colour(const Ray &ray, const ListOfHittables& world, int depth) {
 
+    HitRecord record;
+
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0) {
         return {0,0,0};
     }
 
-    HitRecord record{};
-
     if (world.is_hit_and_update_hit_record(ray, {0.001, std::numeric_limits<double>::infinity()}, record)) {
-        const Vec3 direction = record.surface_normal + Vec3::random_unit_vector(); // Randomly generating a vector according to Lambertian distribution
-        return 0.5 * ray_colour(Ray{record.point, direction}, world, depth - 1);
+        Ray scattered{};
+        Colour attenuation{};
+        if (record.material->scatter(ray, record, attenuation, scattered)) {
+            return attenuation * ray_colour(scattered, world, depth - 1);
+        }
+        return {0,0,0};
     }
 
     const Vec3 unit_direction = unit_vector(ray.direction);

@@ -17,6 +17,7 @@ void Sphere::update_hit_record(HitRecord &record, const Ray &ray, std::optional<
 
     const Vec3 outward_normal = (record.point - center()) / radius();
     record.set_face_and_surface_normal(ray, outward_normal);
+    record.material = m_material;
 }
 
 [[deprecated]] bool Sphere::is_hit_and_update_hit_record(const Ray &ray, Interval t_range, HitRecord &hit_record) const {
