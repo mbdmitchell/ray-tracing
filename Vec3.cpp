@@ -52,6 +52,28 @@ bool Vec3::is_near_zero() const {
     return abs(x) < e && abs(y) < e && abs(z) < e;
 }
 
+Vec3 Vec3::random(Interval range) {
+    return {utils::random_double(range), utils::random_double(range), utils::random_double(range)};
+}
+
+Vec3 Vec3::random_on_hemisphere(const Vec3 &normal) {
+
+    const Vec3 on_unit_sphere = random_unit_vector();
+    const bool in_same_hemisphere_as_normal = dot(on_unit_sphere, normal) > 0.0;
+
+    if (in_same_hemisphere_as_normal) {
+        return on_unit_sphere;
+    }
+    else {
+        return -on_unit_sphere;
+    }
+
+    /*We can take the dot product of the surface normal and our random vector
+     * to determine if it's in the correct hemisphere. If the dot product is
+     * positive, then the vector is in the correct hemisphere. If the dot
+     * product is negative, then we need to invert the vector.*/
+}
+
 std::ostream &operator<<(std::ostream &out, const Vec3 &v) {
     out << v.x << ' ' << v.y << ' ' << v.z;
     return out;
