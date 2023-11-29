@@ -8,6 +8,16 @@ This repository documents my ongoing study of ray tracing principles, drawing kn
 ## Stages
 (In reverse-chronological order)
 
+### 7. Add Materials
+
+![Output Image from this stage](./assets/stage_7.png)
+
+#### Changes
+
+- Add abstract class for materials
+- Add metal and lambertian materials
+- Add fuzz factor for metal reflection rays
+
 ### 6. Improve on Diffuse Material
 
 ![Output Image from this stage](./assets/stage_6.png)
