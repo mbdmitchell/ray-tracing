@@ -11,12 +11,16 @@ public:
 private:
     double m_height;
     double m_width;
-    Point3 m_upper_left;
     Vec3 m_horizontal;
     Vec3 m_vertical;
+    Point3 m_upper_left;
     PixelDelta m_horizontalPixelDelta;
     PixelDelta m_verticalPixelDelta;
     Point3 m_pixel00;
+    [[nodiscard]] static double calc_h(const Camera& cam) {
+        const double theta = utils::degrees_to_radians(cam.field_of_view());
+        return tan(theta/2);
+    }
 public:
     Viewport(const ImageDimensions& dim, const Camera& cam);
 

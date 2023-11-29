@@ -63,31 +63,32 @@ std::ofstream open_file(const std::string& fileName) {
 
 int main() {
 
-    const json config = load_config();
-    const std::string file_name = config["paths"]["outputImage"];
-
     // materials
 
     const Lambertian ground {Colour{0.8, 0.8, 0.0}};
-    const Lambertian center {Colour{0.7, 0.3, 0.3}};
+    const Lambertian center {Colour{0.1, 0.2, 0.5}};
     const Dielectric left   {1.5};
-    const Metal      right  {Colour{0.8, 0.6, 0.2}, 1.0};
+    const Metal      right  {Colour{0.8, 0.6, 0.2}, 0.0};
 
     // setup
 
+    const json config = load_config();
+    const std::string file_name = config["paths"]["outputImage"];
+
     const ListOfHittables world = {
-              Sphere{100, {0, -100.5, -1}, ground}
-            , Sphere{0.5, {0,      0, -1}, center}
-            , Sphere{0.5, {-1,     0, -1}, left}
-            , Sphere{-.4, {-1,     0, -1}, left}
-            , Sphere{0.5, {1,      0, -1}, right}
+              Sphere {100.0, { 0.0, -100.5, -1.0}, ground}
+              , Sphere{ 0.5, { 0.0,    0.0, -1.0}, center}
+              , Sphere{+0.5, {-1.0,    0.0, -1.0}, left}
+              , Sphere{-0.4, {-1.0,    0.0, -1.0}, left}
+              , Sphere{ 0.5, { 1.0,    0.0, -1.0}, right}
     };
 
-    const int width = 400;
+    const int width = 720;
     const int samples_per_pixel = 100;
+
     const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
-    const Camera camera {{0,0,0}, 1.0};
-    const Viewport viewport = Viewport(image_dimensions, camera);
+    const Camera camera {{-2,2,1}, {0,0,-1}, {0,1,0}};
+    const Viewport viewport {image_dimensions, camera};
 
     try {
         std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
