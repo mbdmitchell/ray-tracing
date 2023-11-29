@@ -15,7 +15,8 @@ void Sphere::update_hit_record(HitRecord &record, const Ray &ray, std::optional<
     record.material = m_material;
 }
 
-[[deprecated]] bool Sphere::is_hit_and_update_hit_record(const Ray &ray, Interval t_range, HitRecord &hit_record) const {
+[[deprecated("Find a way to refactor the functions using this so they use is_hit() and update_hit_record() instead")]]
+bool Sphere::is_hit_and_update_hit_record(const Ray &ray, Interval t_range, HitRecord &hit_record) const {
     if (!is_hit(ray, t_range)) return false;
 
     const Vec3 center_to_origin = ray.origin - m_center;

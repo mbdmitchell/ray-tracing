@@ -18,7 +18,7 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
 
         for (gsl::index i = 0; i < dim.width; ++i) {
 
-            const Colour pixel_colour = std::invoke([&](){
+            const Colour pixel_colour = [&](){
                 Colour col {0,0,0};
 
                 for (gsl::index s = 0; s < samples_per_pixel; ++s) {
@@ -26,7 +26,7 @@ void render(std::ostream &os, const ImageDimensions &dim, const Viewport& viewpo
                     col += ray_colour(ray, world, 10) * weight;
                 }
                 return col;
-            });
+            }();
 
             write_color(os, pixel_colour);
         }
