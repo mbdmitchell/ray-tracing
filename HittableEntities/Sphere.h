@@ -21,7 +21,8 @@ public:
     Sphere(double radius, const Point3 &center, T material) : m_radius{radius}, m_center{center} {
         static_assert(std::is_base_of<Material, T>::value, "T must be derived from Material");
 
-        if (m_radius <= 0) {
+        if (m_radius <= 0 && !std::is_same_v<T, Dielectric>) {
+            // Negative radius for dielectric objects results is used for hollow objects
             throw std::invalid_argument("radius must be >0");
         }
 

@@ -54,7 +54,7 @@ bool Dielectric::scatter(const Ray &ray_in, const HitRecord &record, Colour &att
     const bool can_refract = refraction_ratio * sin_theta <= 1.0;
 
     const Vec3 direction = [&](){
-        if (!can_refract) {
+        if (!can_refract || reflectance(cos_theta, refraction_ratio) > utils::random_double()) {
             return reflection_ray(unit_direction, record.surface_normal);
         }
         else {
@@ -66,4 +66,17 @@ bool Dielectric::scatter(const Ray &ray_in, const HitRecord &record, Colour &att
     scattered = Ray{record.point, direction};
 
     return true;
+}
+
+double Dielectric::reflectance(double angle_of_incidence, double refractive_index) {
+
+    // Use Schlick's approximation for reflectance.
+    const double r0 = pow((1 - refractive_index)/(1 + refractive_index), 2);
+    return r0 + (1 - r0) * pow((1-angle_of_incidence), 5);
+
+    /* "reflectance" - often determines how shiny or reflective a surface appears.
+     * Materials with high reflectance, like mirrors, reflect most incident light,
+     * while materials with low reflectance, like matte surfaces, reflect less light,
+     * appearing more diffuse.
+     */
 }

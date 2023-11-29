@@ -36,8 +36,10 @@ public:
 };
 
 class Dielectric : public Material {
-    /// Material always refracts
+    /// ie. clear material
+    // For hollow Dielectric objects, use a negative radius
     double refraction_index;
+    static double reflectance(double angle_of_incidence, double refractive_index);
 public:
     Dielectric(double refraction_index) : refraction_index{refraction_index} { }
     [[nodiscard]] bool scatter(const Ray& ray_in, const HitRecord& record, Colour& attenuation, Ray& scattered) const override;

@@ -79,6 +79,7 @@ int main() {
               Sphere{100, {0, -100.5, -1}, ground}
             , Sphere{0.5, {0,      0, -1}, center}
             , Sphere{0.5, {-1,     0, -1}, left}
+            , Sphere{-.4, {-1,     0, -1}, left}
             , Sphere{0.5, {1,      0, -1}, right}
     };
 
