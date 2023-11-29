@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "ImageDimensions.h"
 #include "HittableEntities/Sphere.h"
+#include "material/Material.h"
 
 #include <algorithm>
 #include <fstream>
@@ -61,16 +62,31 @@ std::ofstream open_file(const std::string& fileName) {
 }
 
 int main() {
+
     const json config = load_config();
     const std::string file_name = config["paths"]["outputImage"];
 
+    // materials
+
+    const Lambertian ground {Colour{0.8, 0.8, 0.0}};
+    const Lambertian center {Colour{0.7, 0.3, 0.3}};
+    const Metal      left   {Colour{0.8, 0.8, 0.8}, 0.3};
+    const Metal      right  {Colour{0.8, 0.6, 0.2}, 1.0};
+
+    // setup
+
+    const ListOfHittables world = {
+              Sphere{100, {0, -100.5, -1}, ground}
+            , Sphere{0.5, {0,      0, -1}, center}
+            , Sphere{0.5, {-1,     0, -1}, left}
+            , Sphere{0.5, {1,      0, -1}, right}
+    };
+
     const int width = 400;
     const int samples_per_pixel = 100;
-
     const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
     const Camera camera {{0,0,0}, 1.0};
     const Viewport viewport = Viewport(image_dimensions, camera);
-    const ListOfHittables world = {Sphere{0.5, {0,0,-1}}, Sphere{100, {0,-100.5,1}}};
 
     try {
         std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
