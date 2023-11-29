@@ -46,6 +46,12 @@ double Vec3::length_squared() const {
     return x*x + y*y + z*z;
 }
 
+bool Vec3::is_near_zero() const {
+    /// Return true if the vector is close to zero in all dimensions.
+    const double e = 1e-8;
+    return abs(x) < e && abs(y) < e && abs(z) < e;
+}
+
 std::ostream &operator<<(std::ostream &out, const Vec3 &v) {
     out << v.x << ' ' << v.y << ' ' << v.z;
     return out;
@@ -89,4 +95,8 @@ Vec3 cross(const Vec3 &u, const Vec3 &v) {
 
 Vec3 unit_vector(Vec3 v) {
     return v / v.length();
+}
+
+Vec3 reflect(const Vec3 &v, const Vec3 &normal_as_unit_vector) {
+    return v - 2 * dot(v,normal_as_unit_vector) * normal_as_unit_vector;
 }

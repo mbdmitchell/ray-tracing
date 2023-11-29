@@ -59,6 +59,7 @@ struct Vec3 { // just POD type
          * positive, then the vector is in the correct hemisphere. If the dot
          * product is negative, then we need to invert the vector.*/
     }
+    [[nodiscard]] bool is_near_zero() const;
 };
 
 using Point3 = Vec3; // useful for geometric clarity in the code
@@ -75,4 +76,4 @@ Vec3 operator/(Vec3 v, double t);
 //double dot(const Vec3 &u, const Vec3 &v);
 Vec3 cross(const Vec3 &u, const Vec3 &v);
 
-//Vec3 unit_vector(Vec3 v);
+Vec3 reflect(const Vec3& v, const Vec3& normal_as_unit_vector);
