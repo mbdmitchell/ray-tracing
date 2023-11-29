@@ -8,6 +8,16 @@ This repository documents my ongoing study of ray tracing principles, drawing kn
 ## Stages
 (In reverse-chronological order)
 
+### 6. Improve on Diffuse Material
+
+![Output Image from this stage](./assets/stage_6.png)
+
+#### Changes
+
+- Remove 'shadow acne'
+- Alter to use true Lambertian reflection
+- Add gamma correction, giving a more accurate color intensity
+
 ### 5. Add A Simple Diffuse Material
 
 ![Output Image from this stage](./assets/stage_5.png)
