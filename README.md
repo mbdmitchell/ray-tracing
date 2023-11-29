@@ -1,12 +1,31 @@
 # Ray Tracing
 
-This repository documents my ongoing study of ray tracing principles, drawing knowledge from `raytracing.github.io`. Although the site provides code examples, I've opted to heavily refactor and customize my implementations for learning purposes and to improve on the code's quality. Notable changes include:
+This repository documents my ongoing study of ray tracing principles, drawing knowledge from `raytracing.github.io`. Although the site provides code examples, I've opted to heavily refactor and customize my implementations for learning purposes and to, at times, improve on the code's quality. Notable changes include:
 
 - More consistent organising of code into classes
 - Utilising modern C++ (C++14 and up)
 
 ## Stages
 (In reverse-chronological order)
+
+### 9. Make Camera Movable
+
+![Scene zooming in / with lower camera field of view](./assets/stage_9_image_2.png)
+![Scene with different viewpoint](./assets/stage_9.png)
+
+#### Changes
+
+- Add a field of view to camera 
+- Enable rotation functionality for camera
+
+### 8. Add Dielectric (ie. clear) Material
+
+![Hollow glass ball](./assets/stage_8.png)
+
+#### Changes
+
+- Add dielectric material
+- Add reflectance
 
 ### 7. Add Materials
 
