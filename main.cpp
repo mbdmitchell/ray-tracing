@@ -23,10 +23,10 @@ template <typename Ratio>
 constexpr ImageDimensions calculate_dimensions(size_t width) {
     constexpr double aspectRatio = gsl::narrow_cast<double>(Ratio::num) / Ratio::den;
 
-    const size_t height = std::invoke([&](){
+    const size_t height = [&](){
         size_t h = gsl::narrow_cast<double>(width) / aspectRatio;
         return std::max(h, size_t(1));
-    });
+    }();
 
     return {height, width};
 }
@@ -90,6 +90,8 @@ int main() {
     const Camera camera {{-2,2,1}, {0,0,-1}, {0,1,0}};
     const Viewport viewport {image_dimensions, camera};
 
+    // render
+
     try {
         std::ofstream output_file = open_file(file_name); // NB: file closed on leaving scope
         render(output_file, image_dimensions, viewport, camera, world, samples_per_pixel);
@@ -98,6 +100,8 @@ int main() {
         std::cerr << std::format("Error: {}\n", e.what());
         return EXIT_FAILURE;
     }
+
+    // display
 
     display_PPM(config);
 
