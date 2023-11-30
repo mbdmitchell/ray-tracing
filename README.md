@@ -6,6 +6,7 @@ This repository documents my ongoing study of ray tracing principles, drawing kn
 - Utilising modern C++ (C++14 and up)
 
 **Final Result**
+
 ![Current_result](./assets/stage_9_5_no_focus_blur_2.png)
 
 ## Stages
