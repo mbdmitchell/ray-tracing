@@ -1,15 +1,15 @@
+#include <algorithm>
+#include <fstream>
+#include <gsl/gsl>
+#include <iostream>
+
 #include "format"
-#include "gsl/gsl"
 #include "json.hpp"
 
 #include "Render.h"
 #include "ImageDimensions.h"
 #include "HittableEntities/Sphere.h"
 #include "material/Material.h"
-
-#include <algorithm>
-#include <fstream>
-#include <iostream>
 
 using json = nlohmann::json;
 
@@ -110,8 +110,8 @@ int main() {
         return w;
     }();
 
-    const int width = 720;
-    const int samples_per_pixel = 100;
+    const int width = 240;
+    const int samples_per_pixel = 50;
 
     const ImageDimensions image_dimensions = calculate_dimensions<AspectRatio<16,9>>(width);
     const Camera camera {Point3{13, 2, 3}, Point3{0, 0, 0}, Point3{0, 1, 0}};
